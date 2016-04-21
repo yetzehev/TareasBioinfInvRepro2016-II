@@ -1,0 +1,49 @@
+#################################################################
+# Dockerfile
+#
+# Version:          1
+# Software:         FastXTools
+# Software Version: 0.0.14
+# Description:      The FASTX-Toolkit is a collection of command line tools for Short-Reads FASTA/FASTQ files preprocessing.
+# Website:          http://hannonlab.cshl.edu/fastx_toolkit/index.html
+# Tags:             Genomics
+# Provides:         FastXTools 0.0.14
+# Base Image:       biodckr/biodocker
+# Build Cmd:        docker build biodckrdev/FastXTools 0.0.14
+# Pull Cmd:         docker pull biodckrdev/FastXTools
+# Run Cmd:          docker run biodckrdev/FastXTools FastXTools
+#################################################################
+
+# Set the base image to Ubuntu
+FROM biodckr/biodocker
+
+# Change user to root
+USER root
+
+################## BEGIN INSTALLATION ######################
+
+#Install Gtextutils and FASTX
+RUN wget https://github.com/agordon/libgtextutils/releases/download/0.7/libgtextutils-0.7.tar.gz && \
+tar -xvf libgtextutils-0.7.tar.gz && \
+cd libgtextutils-0.7 && \
+./configure && \
+make && \
+sudo make install && \
+cd .. && \
+wget https://github.com/agordon/fastx_toolkit/releases/download/0.0.14/fastx_toolkit-0.0.14.tar.bz2 &&\
+tar -xvf fastx_toolkit-0.0.14.tar.bz2 &&\
+cd fastx_toolkit-0.0.14 &&\
+./configure &&\
+make &&\
+sudo make install &&\
+cd .. &&\
+rm -rf fas* lib*
+
+#####   AFTER MAKING DOCKER FILE ####
+
+#Move To the source file
+
+# sudo docker build - < fastx
+# $sudo docker images
+# $sudo docker run -it imageID
+## try fastx
